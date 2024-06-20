@@ -25,6 +25,6 @@ openai_completions_model = "gpt-3.5-turbo-instruct"
 
 embeddings_chunk_size = 250
 embeddings_overlap_size = 25
-chat_max_tokens = 300
+chat_max_tokens = 400
 suggestions_max_tokes = 150
 citations_number = 3

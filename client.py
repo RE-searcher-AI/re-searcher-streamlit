@@ -1,4 +1,3 @@
-import boto3
 from openai import OpenAI
 from pinecone import Pinecone
 

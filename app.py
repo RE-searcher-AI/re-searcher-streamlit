@@ -2,6 +2,7 @@ import streamlit as st
 from dotenv import find_dotenv, load_dotenv
 from streamlit_theme import st_theme
 
+from services.chat.chat_response_service import generate_chat_response
 from utils import LOGO_URL, LOGO_TEXT_LIGHT_URL, LOGO_TEXT_DARK_URL, AUTHORS, INTRODUCTION_MESSAGE, ABOUT_PROJECT
 
 # Load environment variables from the .env file.
@@ -35,8 +36,12 @@ with st.sidebar:
 
 # Initialize or update the session state for storing chat messages.
 if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "assistant", "content": INTRODUCTION_MESSAGE}]
+    st.session_state.messages = []
 
+
+
+with st.chat_message("assistant"):
+    st.markdown(INTRODUCTION_MESSAGE)
 
 # Display all chat messages stored in the session state.
 for message in st.session_state.messages:
@@ -45,16 +50,27 @@ for message in st.session_state.messages:
 
 # Handle user input and generate responses.
 if prompt := st.chat_input("Postavi pitanje vezano za testne dokumente..."):
-    # Append user message to session state.
-    st.session_state.messages.append({"role": "user", "content": prompt})
-
     # Display user message in chat container.
     with st.chat_message("user"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        response = "hello"
-        st.markdown("prompt222")
+        response = generate_chat_response(
+            {
+                "active_document": {
+                    "filename": "orbitalni_istrazivac_marsa.pdf",
+                    "name": "Orbitalni istrazivac Marsa",
+                    "description": "O Marsu"
+                },
+                "conversation": [
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ]
+            }
+        )
+        st.markdown(response["assistant_response"])
 
-    # Append assistant's response to session state.
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    # Update message history
+    st.session_state.messages = response["conversation"]
