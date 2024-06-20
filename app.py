@@ -80,11 +80,13 @@ with st.sidebar:
 st.subheader(f"Dokument: {st.session_state.document['name']}")
 with st.chat_message("assistant"):
     st.markdown(INTRODUCTION_MESSAGE)
-# Display all chat messages stored in the session state.
-# for message in st.session_state.messages:
-#     with st.chat_message(message["role"]):
-#         st.markdown(message["content"])
 
+# Display all chat messages stored in the session state.
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+# TODO: Do suggestions somehow
 # for suggestion in st.session_state.suggestions:
 #     if st.button(suggestion):
 #         st.session_state.messages.append({
