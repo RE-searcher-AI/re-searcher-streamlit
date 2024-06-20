@@ -1,19 +1,11 @@
 import json
 
 from client import openai_client
-from consts import use_aws_knowledge_base, openai_chat_model, use_pinecone, chat_max_tokens
+from consts import  openai_chat_model, use_pinecone, chat_max_tokens
 from services.chat.chat_system_prompts import get_citations_system_message, get_system_prompt, format_system_message
-from services.documents.aws_knowledge_base.document_retrival_service import get_document_citations_from_aws
 from services.documents.douments_service import get_citations_from_pinecone
 from services.sticky_notes.sticky_notes_service import get_openai_functions, create_sticky_note
 from services.suggestions.suggestion_service import generate_continuation_questions
-
-"""
-name: generate_chat_response
-params: user message body JSON
-description: This method processes the response JSON from the AWS instance, extracts the relevant data and calls the 
-OpenAI API
-"""
 
 
 def generate_chat_response(user_message_body):
@@ -113,10 +105,7 @@ def shorten_conversation(messages):
 
 
 def get_citations(user_message, filename, topic=None):
-    if use_aws_knowledge_base:
-        return get_document_citations_from_aws(user_message, filename)
-
-    elif use_pinecone:
+    if use_pinecone:
         return get_citations_from_pinecone(user_message, filename, topic)
 
     else:

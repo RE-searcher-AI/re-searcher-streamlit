@@ -1,37 +1,59 @@
-import traceback
+import streamlit as st
+from dotenv import find_dotenv, load_dotenv
+from streamlit_theme import st_theme
 
-from flask import Flask, request
-from flask_cors import CORS
-from flask_restx import Api
+from utils import LOGO_URL, LOGO_TEXT_LIGHT_URL, LOGO_TEXT_DARK_URL, WARNING_MESSAGE, AUTHORS, INTRODUCTION_MESSAGE
 
-from controllers.chat_controller import chat_controller_api
-from controllers.test_controller import test_controller_api
-from services.documents.douments_service import upload_document_to_pinecone
-
-app = Flask(__name__)
-CORS(app)
-
-api = Api(app)
-
-# Add controller namespaces
-api.add_namespace(test_controller_api)
-api.add_namespace(chat_controller_api)
+# Load environment variables from the .env file.
+load_dotenv(find_dotenv())
 
 
-@app.route('/api/documents', methods=['POST'])
-def index():
-    try:
-        # upload_document_to_pinecone()
-        name = request.form["name"]
-        description = request.form["description"]
-        topic = request.form["topic"]
-        file = request.files["file"]
+# Set Streamlit page configuration with custom title and icon.
+st.set_page_config(page_title="RE:searcher", page_icon=LOGO_URL)
+st.title("RE:searcher")
+st.divider()
 
-        return upload_document_to_pinecone(file, topic, name, description), 201
-    except Exception as e:
-        print(traceback.format_exc())
-        return {"error": str(e)}, 500
+# Determine the theme and set the appropriate logo
+theme_data = st_theme()
+st.session_state.theme = (
+    theme_data["base"] if theme_data is not None else "default_theme"
+)
+logo_url = (
+    LOGO_TEXT_DARK_URL if st.session_state.theme == "dark" else LOGO_TEXT_LIGHT_URL
+)
+
+# Display the logo and set up the sidebar with useful information and links.
+st.logo(logo_url, icon_image=logo_url)
+with st.sidebar:
+    st.subheader("⚠️ Warning")
+    with st.container(border=True):
+        st.markdown(WARNING_MESSAGE)
+
+    st.subheader("✍️ Authors")
+    st.markdown(AUTHORS)
 
 
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True)
+# Initialize or update the session state for storing chat messages.
+if "messages" not in st.session_state:
+    st.session_state.messages = [{"role": "assistant", "content": INTRODUCTION_MESSAGE}]
+
+# Display all chat messages stored in the session state.
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+# Handle user input and generate responses.
+if prompt := st.chat_input("Postavi pitanje vezano za pravo..."):
+    # Append user message to session state.
+    st.session_state.messages.append({"role": "user", "content": prompt})
+
+    # Display user message in chat container.
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    with st.chat_message("assistant"):
+        response = "hello"
+        st.markdown("prompt222")
+
+    # Append assistant's response to session state.
+    st.session_state.messages.append({"role": "assistant", "content": response})
