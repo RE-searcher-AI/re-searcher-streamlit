@@ -173,3 +173,4 @@ cython_debug/
 re-searcher-api/.idea/*
 .venv
 .venv/*
+*.env
