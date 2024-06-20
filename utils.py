@@ -27,17 +27,17 @@ Dobro došli! RE\:Searcher je čet asistent dizajniran da pomogne u istraživač
 
 DOCUMENTS = [{"filename": "orbitalni_istrazivac_marsa.pdf",
               "name": "Orbitalni istrazivac Marsa",
-              "description": "O Marsu"},
+              "description": "Misi Marsovog istraživača."},
              {"filename": "don_kihot.pdf",
               "name": "Don Kihot",
-              "description": "O romanu Don Kihot"},
+              "description": "Čuvena novela Servantesa."},
              {"filename": "macka.pdf",
               "name": "Mačke",
-              "description": "O macama"},
+              "description": "Informacije o mačkama."},
              {"filename": "vino.pdf",
               "name": "Vino",
-              "description": "O vinu"},
+              "description": "Sve o vinu i vinarstvu."},
              {"filename": "iron_maiden.pdf",
               "name": "Iron Maiden",
-              "description": "O Iron Maiden bendu"}
+              "description": "Biografija poznatog benda."}
              ]

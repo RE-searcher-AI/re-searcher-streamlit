@@ -19,6 +19,9 @@ if "suggestions" not in st.session_state:
 if "document" not in st.session_state:
     st.session_state.document = DOCUMENTS[0]
 
+if "notes" not in st.session_state:
+    st.session_state.notes = []
+
 # Set Streamlit page configuration with custom title and icon.
 st.set_page_config(page_title="RE:searcher", page_icon=LOGO_URL)
 st.title("RE\:searcher")
@@ -46,6 +49,7 @@ with st.sidebar:
 
 
     def on_radio_change():
+        st.session_state.notes = []
         st.session_state.messages = []
 
 
@@ -63,49 +67,62 @@ with st.sidebar:
     st.subheader("✍️ Autori")
     st.markdown(AUTHORS)
 
-with st.chat_message("assistant"):
-    st.markdown(INTRODUCTION_MESSAGE)
+chat_column, notes_column = st.columns(2)
 
-# Display all chat messages stored in the session state.
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
-
-for suggestion in st.session_state.suggestions:
-    if st.button(suggestion):
-        st.session_state.messages.append({
-            "role": "user",
-            "content": suggestion
-        })
-
-# Handle user input and generate responses.
-if prompt := st.chat_input("Postavi pitanje vezano za testne dokumente..."):
-    # Display user message in chat container.
-    with st.chat_message("user"):
-        st.write(prompt)
-
+with chat_column:
+    st.subheader(f"Dokument: {st.session_state.document['name']}")
     with st.chat_message("assistant"):
-        st.session_state.messages.append({
-            "role": "user",
-            "content": prompt
-        })
+        st.markdown(INTRODUCTION_MESSAGE)
 
-        response = generate_chat_response(
-            {
-                "active_document": {
-                    "filename": "orbitalni_istrazivac_marsa.pdf",
-                    "name": "Orbitalni istrazivac Marsa",
-                    "description": "O Marsu"
-                },
-                "conversation": st.session_state.messages
-            }
-        )
-        st.write(response["assistant_response"])
-        if len(response.get("citations", [])) != 0:
-            st.divider()
-            for index, citation in enumerate(response["citations"]):
-                with st.expander(f"Citat [{index + 1}]"):
-                    st.caption(citation)
+    # Display all chat messages stored in the session state.
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
-    # Update message history
-    st.session_state.messages = response["conversation"]
+    for suggestion in st.session_state.suggestions:
+        if st.button(suggestion):
+            st.session_state.messages.append({
+                "role": "user",
+                "content": suggestion
+            })
+
+    # Handle user input and generate responses.
+    if prompt := st.chat_input("Postavi pitanje vezano za testne dokumente..."):
+        # Display user message in chat container.
+        with st.chat_message("user"):
+            st.write(prompt)
+
+        with st.chat_message("assistant"):
+            st.session_state.messages.append({
+                "role": "user",
+                "content": prompt
+            })
+
+            response = generate_chat_response(
+                {
+                    "active_document": {
+                        "filename": "orbitalni_istrazivac_marsa.pdf",
+                        "name": "Orbitalni istrazivac Marsa",
+                        "description": "O Marsu"
+                    },
+                    "conversation": st.session_state.messages
+                }
+            )
+            st.write(response["assistant_response"])
+            if (response["new_sticky_note"] != None):
+                st.session_state.notes.append(response["new_sticky_note"])
+
+            if len(response.get("citations", [])) != 0:
+                st.divider()
+                for index, citation in enumerate(response["citations"]):
+                    with st.expander(f"Citat [{index + 1}]"):
+                        st.caption(citation)
+
+            # Update message history
+            st.session_state.messages = response["conversation"]
+
+with notes_column:
+    st.subheader("Beleške")
+    for note in st.session_state.notes:
+        with st.container(border=True):
+            st.markdown(f"**{note['title']}**: {note['description']}")
