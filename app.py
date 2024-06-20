@@ -3,10 +3,21 @@ from streamlit_theme import st_theme
 
 import streamlit as st
 from services.chat.chat_response_service import generate_chat_response
-from utils import LOGO_URL, LOGO_TEXT_LIGHT_URL, LOGO_TEXT_DARK_URL, AUTHORS, INTRODUCTION_MESSAGE, ABOUT_PROJECT
+from utils import LOGO_URL, LOGO_TEXT_LIGHT_URL, LOGO_TEXT_DARK_URL, AUTHORS, INTRODUCTION_MESSAGE, ABOUT_PROJECT, \
+    DOCUMENTS
 
 # Load environment variables from the .env file.
 load_dotenv(find_dotenv())
+
+# Initialize state.
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+if "suggestions" not in st.session_state:
+    st.session_state.suggestions = []
+
+if "document" not in st.session_state:
+    st.session_state.document = DOCUMENTS[0]
 
 # Set Streamlit page configuration with custom title and icon.
 st.set_page_config(page_title="RE:searcher", page_icon=LOGO_URL)
@@ -29,12 +40,28 @@ with st.sidebar:
     with st.container(border=True):
         st.markdown(ABOUT_PROJECT)
 
+    st.divider()
+
+    st.subheader("📚 Odaberi dokument")
+
+
+    def on_radio_change():
+        st.session_state.messages = []
+
+
+    document = st.radio(
+        label="O kom dokumentu želite da razgovarate?",
+        options=[e["name"] for e in DOCUMENTS],
+        captions=[e["description"] for e in DOCUMENTS],
+        on_change=on_radio_change
+    )
+
+    st.session_state.document = next((e for e in DOCUMENTS if e["name"] == document), None)
+
+    st.divider()
+
     st.subheader("✍️ Autori")
     st.markdown(AUTHORS)
-
-# Initialize or update the session state for storing chat messages.
-if "messages" not in st.session_state:
-    st.session_state.messages = []
 
 with st.chat_message("assistant"):
     st.markdown(INTRODUCTION_MESSAGE)
@@ -43,6 +70,13 @@ with st.chat_message("assistant"):
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
+
+for suggestion in st.session_state.suggestions:
+    if st.button(suggestion):
+        st.session_state.messages.append({
+            "role": "user",
+            "content": suggestion
+        })
 
 # Handle user input and generate responses.
 if prompt := st.chat_input("Postavi pitanje vezano za testne dokumente..."):
