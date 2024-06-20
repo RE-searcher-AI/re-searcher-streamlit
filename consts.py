@@ -16,7 +16,7 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 
 use_pinecone = True
 
-pinecone_api = os.getenv("PINECONE_API")
+pinecone_api = os.getenv("PINECONE_API_KEY")
 pinecone_index_name = "researcher"
 
 openai_embeddings_model = "text-embedding-3-small"
