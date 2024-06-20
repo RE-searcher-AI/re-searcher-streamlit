@@ -6,8 +6,6 @@ TEXT_URL = "assets/LogoMain.svg"
 
 ABOUT_PROJECT = """
 Ovaj projekat se bavi razvojem inteligentnog asistenta. Njegova osnovna funkcija je da korisniku olakša pretragu informacija unutar ličnih dokumenata.
-
-Cilj je omogućiti korisnicima jednostavno pretraživanje i upravljanje dokumentima, formulisanje pitanja, kreiranje beleški, generisanje paragrafa i definisanje tema i apstrakta dokumenata.
 """
 
 AUTHORS = """

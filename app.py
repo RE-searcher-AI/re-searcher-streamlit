@@ -1,13 +1,12 @@
-import streamlit as st
 from dotenv import find_dotenv, load_dotenv
 from streamlit_theme import st_theme
 
+import streamlit as st
 from services.chat.chat_response_service import generate_chat_response
 from utils import LOGO_URL, LOGO_TEXT_LIGHT_URL, LOGO_TEXT_DARK_URL, AUTHORS, INTRODUCTION_MESSAGE, ABOUT_PROJECT
 
 # Load environment variables from the .env file.
 load_dotenv(find_dotenv())
-
 
 # Set Streamlit page configuration with custom title and icon.
 st.set_page_config(page_title="RE:searcher", page_icon=LOGO_URL)
@@ -33,12 +32,9 @@ with st.sidebar:
     st.subheader("✍️ Autori")
     st.markdown(AUTHORS)
 
-
 # Initialize or update the session state for storing chat messages.
 if "messages" not in st.session_state:
     st.session_state.messages = []
-
-
 
 with st.chat_message("assistant"):
     st.markdown(INTRODUCTION_MESSAGE)
@@ -55,6 +51,11 @@ if prompt := st.chat_input("Postavi pitanje vezano za testne dokumente..."):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
+        st.session_state.messages.append({
+            "role": "user",
+            "content": prompt
+        })
+
         response = generate_chat_response(
             {
                 "active_document": {
@@ -62,12 +63,7 @@ if prompt := st.chat_input("Postavi pitanje vezano za testne dokumente..."):
                     "name": "Orbitalni istrazivac Marsa",
                     "description": "O Marsu"
                 },
-                "conversation": [
-                    {
-                        "role": "user",
-                        "content": prompt
-                    }
-                ]
+                "conversation": st.session_state.messages
             }
         )
         st.markdown(response["assistant_response"])
