@@ -48,7 +48,7 @@ for message in st.session_state.messages:
 if prompt := st.chat_input("Postavi pitanje vezano za testne dokumente..."):
     # Display user message in chat container.
     with st.chat_message("user"):
-        st.markdown(prompt)
+        st.write(prompt)
 
     with st.chat_message("assistant"):
         st.session_state.messages.append({
@@ -66,7 +66,12 @@ if prompt := st.chat_input("Postavi pitanje vezano za testne dokumente..."):
                 "conversation": st.session_state.messages
             }
         )
-        st.markdown(response["assistant_response"])
+        st.write(response["assistant_response"])
+        if len(response.get("citations", [])) != 0:
+            st.divider()
+            for index, citation in enumerate(response["citations"]):
+                with st.expander(f"Citat [{index + 1}]"):
+                    st.caption(citation)
 
     # Update message history
     st.session_state.messages = response["conversation"]
