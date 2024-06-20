@@ -17,11 +17,13 @@ AUTHORS = """
 INTRODUCTION_MESSAGE = """
 Dobro došli! RE\:Searcher je čet asistent dizajniran da pomogne u istraživačkom radu kao i kreiranju mapi uma. 
 
-- [Labor Law](https://www.paragraf.rs/propisi/zakon_o_radu.html)
-- [Personal Income Tax Law](https://www.paragraf.rs/propisi/zakon-o-porezu-na-dohodak-gradjana.html)
-- [Personal Data Protection Law](https://www.paragraf.rs/propisi/zakon_o_zastiti_podataka_o_licnosti.html)
-- [Consumer Protection Law](https://www.paragraf.rs/propisi/zakon_o_zastiti_potrosaca.html)
-- [Family Law](https://www.paragraf.rs/propisi/porodicni_zakon.html)
+Iskoristite priliku i isprobajte neke od testnih dokumenata!
+
+- [Orbitalni istrazivac Marsa](https://github.com/tara-pogancev/re-searcher-streamlit/blob/main/data/orbitalni_istrazivac_marsa.pdf)
+- [Don Kihot](https://github.com/tara-pogancev/re-searcher-streamlit/blob/main/data/don_kihot.pdf)
+- [Mačke](https://github.com/tara-pogancev/re-searcher-streamlit/blob/main/data/macka.pdf)
+- [Vino](https://github.com/tara-pogancev/re-searcher-streamlit/blob/main/data/vino.pdf)
+- [Iron Maiden](https://github.com/tara-pogancev/re-searcher-streamlit/blob/main/data/iron_maiden.pdf)
 
 """
 
