@@ -1,4 +1,4 @@
-LOGO_URL = "assets/LogoMainMini.svg"
+LOGO_URL = "assets/favicon.png"
 LOGO_TEXT_LIGHT_URL = "assets/LogoMain.svg"
 LOGO_TEXT_DARK_URL = "assets/LogoWhite.svg"
 TEXT_URL = "assets/LogoMain.svg"

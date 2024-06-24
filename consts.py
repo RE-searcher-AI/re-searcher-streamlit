@@ -27,4 +27,8 @@ embeddings_chunk_size = 250
 embeddings_overlap_size = 25
 chat_max_tokens = 400
 suggestions_max_tokes = 150
+pinecone_query_max_tokes = 150
 citations_number = 3
+min_score = 0.3
+
+generate_suggested_messages = False

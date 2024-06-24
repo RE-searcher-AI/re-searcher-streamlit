@@ -86,13 +86,6 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# TODO: Do suggestions somehow
-# for suggestion in st.session_state.suggestions:
-#     if st.button(suggestion):
-#         st.session_state.messages.append({
-#             "role": "user",
-#             "content": suggestion
-#         })
 
 # Handle user input and generate responses.
 if prompt := st.chat_input("Postavi pitanje vezano za testne dokumente..."):
@@ -116,6 +109,7 @@ if prompt := st.chat_input("Postavi pitanje vezano za testne dokumente..."):
                 "conversation": st.session_state.messages
             }
         )
+
         st.write(response["assistant_response"])
         if (response["new_sticky_note"] != None):
             st.session_state.notes.append(response["new_sticky_note"])
@@ -123,8 +117,8 @@ if prompt := st.chat_input("Postavi pitanje vezano za testne dokumente..."):
         if len(response.get("citations", [])) != 0:
             st.divider()
             for index, citation in enumerate(response["citations"]):
-                with st.expander(f"Citat [{index + 1}]"):
-                    st.caption(citation)
+                with st.expander(f"Citat [{index + 1}] - {citation['filename']} - {citation['score']}"):
+                    st.caption(citation['content'])
 
         # Update message history
         st.session_state.messages = response["conversation"]

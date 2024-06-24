@@ -40,7 +40,7 @@ def query_pinecone_vectors(query_vector, filename=None, topic=None):
         namespace=pinecone_index_name,
         vector=query_vector,
         top_k=citations_number,
-        # filter=metadata,
+        filter=metadata,
         include_metadata=True,
         include_values=True
     )

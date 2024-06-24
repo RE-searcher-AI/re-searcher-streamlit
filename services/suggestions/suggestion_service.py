@@ -16,6 +16,7 @@ Obavezno generisi odgovovor koji strogo prati sledeci sablon:
 ["Prvo pitanje?", "Drugo pitanje?", "Trece pitanje?"]
 
 Ovo su prethodne razmenjene poruke izmedju coveka i AI-a:
+
 """
 
 
