@@ -5,3 +5,7 @@ pinecone~=4.0.0
 streamlit==1.35.0
 st-theme ==1.2.3
 python-dotenv==1.0.1
+cffi==1.16.0
+cryptography==42.0.8
+pdfminer.six==20231228
+pycparser==2.22
