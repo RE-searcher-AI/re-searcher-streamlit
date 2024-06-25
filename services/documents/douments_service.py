@@ -1,10 +1,32 @@
+import os.path
+import re
+
 from client import openai_client
 from consts import min_score, openai_completions_model, pinecone_query_max_tokes
 from services.documents.embeddings_service import separate_text_from_pdf, chunk_text, get_embeddings_for_chunks, \
     get_embeddings
 from services.documents.pinecone_service import upsert_pinecone_vectors, query_pinecone_vectors
 from services.suggestions.suggestion_service import extract_recent_messages
+from pdfminer.high_level import extract_text_to_fp
 
+def is_word_compatible(extension):
+    word_pattern = r'^(docx|docm|dot|dotx)$'
+    return bool(re.search(word_pattern, extension, re.IGNORECASE))
+
+def is_pdf_compatible(extension):
+    pdf_pattern = r'^pdf$'
+    return bool(re.search(pdf_pattern, extension, re.IGNORECASE))
+
+def convert_document_to_xml(file):
+    # TODO define procedural logic which will check the document type and convert it to XML format before chunking it to pinecone
+    filename = file.filename
+    # Get the file extension
+    extension = os.path.splitext(filename)[1][1:]
+
+    if is_pdf_compatible(extension):
+        # TODO convert pdf to xml
+    elif is_word_compatible(extension):
+        # TODO convert word to xml
 
 def upload_document_to_pinecone(file, topic, name, description):
     filename = file.filename
