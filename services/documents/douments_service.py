@@ -25,8 +25,10 @@ def convert_document_to_xml(file):
 
     if is_pdf_compatible(extension):
         # TODO convert pdf to xml
+        pass
     elif is_word_compatible(extension):
         # TODO convert word to xml
+        pass
 
 def upload_document_to_pinecone(file, topic, name, description):
     filename = file.filename
