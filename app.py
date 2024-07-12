@@ -68,24 +68,24 @@ with st.sidebar:
 
     st.divider()
 
-    st.subheader("🤔 Želite da dodate novi dokument?")
-    st.caption("Ukoliko želite da dodate novi dokument, isti je moguće dodati klikom na dugme dodaj!")
-    add_btn = '''
-    <div style="display: flex; justify-content: center;">
-        <button style="
-            background-color: #ff4b4b; 
-            color: white; 
-            border: none; 
-            padding: 10px 20px; 
-            border-radius: 10px; 
-            cursor: pointer;">
-            Dodaj!
-        </button>
-    </div>
-    '''
-    st.sidebar.markdown(add_btn, unsafe_allow_html=True)
+    # st.subheader("🤔 Želite da dodate novi dokument?")
+    # st.caption("Ukoliko želite da dodate novi dokument, isti je moguće dodati klikom na dugme dodaj!")
+    # add_btn = '''
+    # <div style="display: flex; justify-content: center;">
+    #     <button style="
+    #         background-color: #ff4b4b; 
+    #         color: white; 
+    #         border: none; 
+    #         padding: 10px 20px; 
+    #         border-radius: 10px; 
+    #         cursor: pointer;">
+    #         Dodaj!
+    #     </button>
+    # </div>
+    # '''
+    # st.sidebar.markdown(add_btn, unsafe_allow_html=True)
 
-    st.divider()
+    # st.divider()
 
     st.subheader("👋️ O projektu")
     with st.container(border=True):
